@@ -6,250 +6,173 @@
   <title>Calculadora Científica Casio Adaptable - Alta Visibilidad</title>
   <style>
     :root {
+      /* Modo 1 por defecto: Fondo blanco, texto negro, bordes de color de 11px */
+      --bg-app: #FFFFFF;
+      --bg-display: #FFFFFF;
+      --bg-badge: #FFFFFF;
+      --text-main: #000000;
+      --border-color: #000000;
+      --key-color-border-width: 11px;
+      
+      --btn-num-bg: #FFFFFF;
+      --btn-num-text: #000000;
+      --border-num: #000000;
+      
+      --btn-op-bg: #FFFFFF;
+      --btn-op-text: #000000;
+      --border-op: #004488;
+      
+      --btn-sci-bg: #FFFFFF;
+      --btn-sci-text: #000000;
+      --border-sci: #000000;
+      
+      --btn-del-bg: #FFFFFF;
+      --btn-del-text: #000000;
+      --border-del: #b30000;
+      
+      --btn-eq-bg: #FFFFFF;
+      --btn-eq-text: #000000;
+      --border-eq: #007a29;
+      
+      --btn-shift-bg: #FFFFFF;
+      --btn-shift-text: #000000;
+      --border-shift: #d97700;
+      --btn-shift-active-bg: #d97700;
+      --btn-shift-active-text: #000000;
+      
+      --btn-top-bg: #FFFFFF;
+      --btn-top-text: #000000;
+      --btn-salir-bg: #FFFFFF;
+      --btn-salir-text: #000000;
+      --border-salir: #cc0000;
+    }
+
+    /* Modo 2: Negro y Amarillo (Original 1) */
+    body.tema-negro-amarillo {
       --bg-app: #000000;
       --bg-display: #111111;
+      --bg-badge: #1a1a1a;
       --text-main: #FFFF00;
       --border-color: #FFFF00;
+      --key-color-border-width: 3px;
+      
       --btn-num-bg: #1a1a1a;
       --btn-num-text: #FFFFFF;
+      --border-num: #FFFF00;
+      
       --btn-op-bg: #004488;
       --btn-op-text: #FFFFFF;
+      --border-op: #FFFF00;
+      
       --btn-sci-bg: #262626;
       --btn-sci-text: #FFFF00;
+      --border-sci: #FFFF00;
+      
       --btn-del-bg: #b30000;
+      --btn-del-text: #FFFFFF;
+      --border-del: #FFFF00;
+      
       --btn-eq-bg: #007a29;
+      --btn-eq-text: #FFFFFF;
+      --border-eq: #FFFF00;
+      
       --btn-shift-bg: #d97700;
+      --btn-shift-text: #000000;
+      --border-shift: #FFFF00;
+      --btn-shift-active-bg: #ffffff;
+      --btn-shift-active-text: #000000;
+      
+      --btn-top-bg: #222222;
+      --btn-top-text: #FFFFFF;
+      --btn-salir-bg: #cc0000;
+      --btn-salir-text: #FFFFFF;
+      --border-salir: #FFFFFF;
     }
 
-    body.tema-blanco {
+    /* Modo 3: Negro y Blanco (Original 2) */
+    body.tema-negro-blanco {
+      --bg-app: #000000;
+      --bg-display: #111111;
+      --bg-badge: #1a1a1a;
       --text-main: #FFFFFF;
       --border-color: #FFFFFF;
+      --key-color-border-width: 3px;
+      
+      --btn-num-bg: #1a1a1a;
+      --btn-num-text: #FFFFFF;
+      --border-num: #FFFFFF;
+      
+      --btn-op-bg: #004488;
+      --btn-op-text: #FFFFFF;
+      --border-op: #FFFFFF;
+      
+      --btn-sci-bg: #262626;
       --btn-sci-text: #FFFFFF;
+      --border-sci: #FFFFFF;
+      
+      --btn-del-bg: #b30000;
+      --btn-del-text: #FFFFFF;
+      --border-del: #FFFFFF;
+      
+      --btn-eq-bg: #007a29;
+      --btn-eq-text: #FFFFFF;
+      --border-eq: #FFFFFF;
+      
+      --btn-shift-bg: #d97700;
+      --btn-shift-text: #000000;
+      --border-shift: #FFFFFF;
+      --btn-shift-active-bg: #ffffff;
+      --btn-shift-active-text: #000000;
+      
+      --btn-top-bg: #222222;
+      --btn-top-text: #FFFFFF;
+      --btn-salir-bg: #cc0000;
+      --btn-salir-text: #FFFFFF;
+      --border-salir: #FFFFFF;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      user-select: none;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      background-color: var(--bg-app);
-      color: var(--text-main);
-      overflow: hidden;
-    }
-
-    .app-container {
-      display: flex;
-      flex-direction: column;
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      padding: 8px;
-      gap: 8px;
-    }
-
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      min-height: 44px;
-    }
-
-    .status-indicators {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      font-size: clamp(0.85rem, 2.8vw, 1.2rem);
-      font-weight: 800;
-    }
-
-    .badge {
-      padding: 6px 10px;
-      border: 2px solid var(--border-color);
-      border-radius: 8px;
-      background: #1a1a1a;
-      white-space: nowrap;
-    }
-
-    .badge.shift-active {
-      background: var(--btn-shift-bg);
-      color: #000000;
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .btn-top {
-      padding: 6px 10px;
-      font-size: clamp(0.85rem, 2.8vw, 1.15rem);
-      font-weight: 800;
-      border-radius: 8px;
-      border: 2px solid var(--border-color);
-      background: #222222;
-      color: #FFFFFF;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .btn-salir {
-      background-color: #cc0000;
-      color: #FFFFFF;
-      border-color: #FFFFFF;
-      padding: 6px 12px;
-      font-size: clamp(0.9rem, 3vw, 1.25rem);
-      text-transform: uppercase;
-    }
-
-    .btn-salir:active {
-      background-color: #ff1a1a;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; user-select: none; }
+    html, body { width: 100%; height: 100%; background-color: var(--bg-app); color: var(--text-main); overflow: hidden; }
+    
+    .app-container { display: flex; flex-direction: column; width: 100vw; height: 100vh; height: 100dvh; padding: 8px; gap: 8px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; min-height: 44px; }
+    .status-indicators { display: flex; gap: 6px; align-items: center; font-size: clamp(0.85rem, 2.8vw, 1.2rem); font-weight: 800; }
+    
+    .badge { padding: 6px 10px; border: 3px solid var(--border-color); border-radius: 8px; background: var(--bg-badge); color: var(--text-main); white-space: nowrap; }
+    .badge.shift-active { background: var(--btn-shift-active-bg); color: var(--btn-shift-active-text); border-color: var(--border-shift); }
+    
+    .top-actions { display: flex; gap: 6px; align-items: center; }
+    .btn-top { padding: 6px 10px; font-size: clamp(0.85rem, 2.8vw, 1.15rem); font-weight: 800; border-radius: 8px; border: 3px solid var(--border-color); background: var(--btn-top-bg); color: var(--btn-top-text); cursor: pointer; white-space: nowrap; }
+    
+    .btn-salir { background-color: var(--btn-salir-bg); color: var(--btn-salir-text); border-color: var(--border-salir); border-width: var(--key-color-border-width); padding: 4px 10px; font-size: clamp(0.9rem, 3vw, 1.25rem); text-transform: uppercase; }
+    .btn-salir:active { filter: brightness(0.9); }
 
     @media (max-width: 600px) {
-      .app-container {
-        padding: 6px;
-        gap: 6px;
-      }
-      .top-bar {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 4px;
-        width: 100%;
-      }
-      .status-indicators,
-      .top-actions {
-        display: contents;
-      }
-      .badge,
-      .btn-top,
-      .btn-salir {
-        width: 100%;
-        padding: 8px 2px;
-        font-size: clamp(0.75rem, 3.1vw, 0.95rem);
-        text-align: center;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+      .app-container { padding: 6px; gap: 6px; }
+      .top-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; width: 100%; }
+      .status-indicators, .top-actions { display: contents; }
+      .badge, .btn-top, .btn-salir { width: 100%; padding: 6px 2px; font-size: clamp(0.75rem, 3.1vw, 0.95rem); text-align: center; overflow: hidden; text-overflow: ellipsis; }
     }
 
     /* Pantalla única y grande */
-    .display-box {
-      background-color: var(--bg-display);
-      border: 3px solid var(--border-color);
-      border-radius: 10px;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      min-height: 15vh;
-    }
+    .display-box { background-color: var(--bg-display); border: 3px solid var(--border-color); border-radius: 10px; padding: 10px 16px; display: flex; align-items: center; justify-content: flex-end; min-height: 15vh; }
+    .result { font-size: clamp(2.8rem, 7vh, 4.8rem); font-weight: 900; color: var(--text-main); width: 100%; text-align: right; overflow-x: auto; white-space: nowrap; }
 
-    .result {
-      font-size: clamp(2.8rem, 7vh, 4.8rem);
-      font-weight: 900;
-      color: var(--text-main);
-      width: 100%;
-      text-align: right;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
+    .keypad { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .sci-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; flex: 1.3; }
+    .main-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; flex: 2; }
 
-    .keypad {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    button.key { border-style: solid; border-radius: 10px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 2px; line-height: 1; white-space: nowrap; transition: transform 0.05s; }
+    button.key:active { transform: scale(0.96); filter: brightness(0.9); }
+    button.key:focus-visible { outline: 4px solid #00ffff; outline-offset: 2px; }
 
-    /* Rejilla científica ampliada a 5 columnas para botones más grandes */
-    .sci-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      flex: 1.3;
-    }
-
-    .main-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      flex: 2;
-    }
-
-    button.key {
-      border: 2px solid var(--border-color);
-      border-radius: 10px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2px;
-      line-height: 1;
-      white-space: nowrap;
-      transition: transform 0.05s;
-    }
-
-    button.key:active {
-      transform: scale(0.96);
-      filter: brightness(1.3);
-    }
-
-    button.key:focus-visible {
-      outline: 4px solid #00ffff;
-      outline-offset: 2px;
-    }
-
-    .key-sci {
-      background-color: var(--btn-sci-bg);
-      color: var(--btn-sci-text);
-      font-size: clamp(1.3rem, 3.2vh, 2.2rem);
-    }
-
-    .key-num {
-      background-color: var(--btn-num-bg);
-      color: var(--btn-num-text);
-      font-size: clamp(1.9rem, 4.5vh, 3rem);
-    }
-
-    .key-op {
-      background-color: var(--btn-op-bg);
-      color: var(--btn-op-text);
-      font-size: clamp(1.9rem, 4.5vh, 3rem);
-    }
-
-    .key-del {
-      background-color: var(--btn-del-bg);
-      color: #FFFFFF;
-      font-size: clamp(1.35rem, 3.3vh, 2.2rem);
-    }
-
-    .key-eq {
-      background-color: var(--btn-eq-bg);
-      color: #FFFFFF;
-      font-size: clamp(2.1rem, 4.8vh, 3.2rem);
-    }
-
-    .key-shift {
-      background-color: var(--btn-shift-bg);
-      color: #000000;
-      font-size: clamp(1.1rem, 2.8vh, 1.9rem);
-    }
-
-    .key-shift.active {
-      background-color: #ffffff;
-      color: #000000;
-      box-shadow: 0 0 12px #FFFF00;
-    }
+    .key-sci { background-color: var(--btn-sci-bg); color: var(--btn-sci-text); border-color: var(--border-sci); border-width: 3px; font-size: clamp(1.3rem, 3.2vh, 2.2rem); }
+    .key-num { background-color: var(--btn-num-bg); color: var(--btn-num-text); border-color: var(--border-num); border-width: 3px; font-size: clamp(1.9rem, 4.5vh, 3rem); }
+    .key-op { background-color: var(--btn-op-bg); color: var(--btn-op-text); border-color: var(--border-op); border-width: var(--key-color-border-width); font-size: clamp(1.9rem, 4.5vh, 3rem); }
+    .key-del { background-color: var(--btn-del-bg); color: var(--btn-del-text); border-color: var(--border-del); border-width: var(--key-color-border-width); font-size: clamp(1.35rem, 3.3vh, 2.2rem); }
+    .key-eq { background-color: var(--btn-eq-bg); color: var(--btn-eq-text); border-color: var(--border-eq); border-width: var(--key-color-border-width); font-size: clamp(2.1rem, 4.8vh, 3.2rem); }
+    .key-shift { background-color: var(--btn-shift-bg); color: var(--btn-shift-text); border-color: var(--border-shift); border-width: var(--key-color-border-width); font-size: clamp(1.1rem, 2.8vh, 1.9rem); }
+    .key-shift.active { background-color: var(--btn-shift-active-bg); color: var(--btn-shift-active-text); box-shadow: 0 0 12px var(--border-shift); }
   </style>
 </head>
 <body>
@@ -277,15 +200,13 @@
         <button class="key key-sci" id="key-sq" onclick="pressSci('sq')">x²</button>
         <button class="key key-sci" id="key-pow" onclick="pressSci('pow')">xʸ</button>
         <button class="key key-sci" id="key-inv" onclick="pressSci('inv')">x⁻¹</button>
-
         <button class="key key-sci" id="key-sin" onclick="pressSci('sin')">sin</button>
         <button class="key key-sci" id="key-cos" onclick="pressSci('cos')">cos</button>
         <button class="key key-sci" id="key-tan" onclick="pressSci('tan')">tan</button>
         <button class="key key-sci" id="key-log" onclick="pressSci('log')">log</button>
         <button class="key key-sci" id="key-ln" onclick="pressSci('ln')">ln</button>
-
         <button class="key key-sci" onclick="insertToken('(')">(</button>
-        <button class="key key-sci" onclick="insertToken(')')">)</button>
+        <button class="key key-sci" id="key-close" onclick="insertToken(')')">)</button>
         <button class="key key-sci" onclick="insertFunc('abs(')">|x|</button>
         <button class="key key-sci" onclick="insertPostfix('!')">x!</button>
         <button class="key key-sci" onclick="insertPostfix('%')">%</button>
@@ -297,19 +218,16 @@
         <button class="key key-num" onclick="insertDigit('9')">9</button>
         <button class="key key-del" onclick="deleteLast()">DEL</button>
         <button class="key key-del" onclick="clearAll()">AC</button>
-
         <button class="key key-num" onclick="insertDigit('4')">4</button>
         <button class="key key-num" onclick="insertDigit('5')">5</button>
         <button class="key key-num" onclick="insertDigit('6')">6</button>
         <button class="key key-op" onclick="insertOperator('×')">×</button>
         <button class="key key-op" onclick="insertOperator('÷')">÷</button>
-
         <button class="key key-num" onclick="insertDigit('1')">1</button>
         <button class="key key-num" onclick="insertDigit('2')">2</button>
         <button class="key key-num" onclick="insertDigit('3')">3</button>
         <button class="key key-op" onclick="insertOperator('+')">+</button>
         <button class="key key-op" onclick="insertOperator('−')">−</button>
-
         <button class="key key-num" onclick="insertDigit('0')">0</button>
         <button class="key key-num" onclick="insertDigit('.')">.</button>
         <button class="key key-sci" id="key-const" onclick="pressConst()">π</button>
@@ -325,6 +243,7 @@
     let isDeg = true;
     let isShift = false;
     let justEvaluated = false;
+    let currentTheme = 0;
 
     const displayEl = document.getElementById('display');
     const shiftBadge = document.getElementById('ind-shift');
@@ -334,9 +253,7 @@
     function actualizarEtiquetasResponsive() {
       const esMovil = window.innerWidth <= 600;
       const fsBtn = document.getElementById('btn-fullscreen');
-      degBtn.textContent = esMovil
-        ? (isDeg ? 'DEG' : 'RAD')
-        : (isDeg ? 'DEG (Grados)' : 'RAD (Radianes)');
+      degBtn.textContent = esMovil ? (isDeg ? 'DEG' : 'RAD') : (isDeg ? 'DEG (Grados)' : 'RAD (Radianes)');
       fsBtn.textContent = esMovil ? 'P. Completa' : 'Pantalla Completa';
     }
 
@@ -369,7 +286,13 @@
     }
 
     function toggleTheme() {
-      document.body.classList.toggle('tema-blanco');
+      currentTheme = (currentTheme + 1) % 3;
+      document.body.classList.remove('tema-negro-amarillo', 'tema-negro-blanco');
+      if (currentTheme === 1) {
+        document.body.classList.add('tema-negro-amarillo');
+      } else if (currentTheme === 2) {
+        document.body.classList.add('tema-negro-blanco');
+      }
     }
 
     function toggleDeg() {
@@ -382,7 +305,6 @@
       shiftBadge.textContent = isShift ? 'SHIFT' : 'NORMAL';
       shiftBadge.classList.toggle('shift-active', isShift);
       shiftBtn.classList.toggle('active', isShift);
-
       document.getElementById('key-sqrt').textContent = isShift ? '∛' : '√';
       document.getElementById('key-sq').textContent = isShift ? 'x³' : 'x²';
       document.getElementById('key-pow').textContent = isShift ? 'ⁿ√' : 'xʸ';
@@ -463,7 +385,10 @@
       } else if (type === 'sq') {
         insertPostfix(isShift ? '³' : '²');
       } else if (type === 'pow') {
-        if (justEvaluated) { currentExpr = 'Ans'; justEvaluated = false; }
+        if (justEvaluated) {
+          currentExpr = 'Ans';
+          justEvaluated = false;
+        }
         if (currentExpr === '') currentExpr = 'Ans';
         currentExpr += isShift ? '^(1/' : '^';
         updateScreen(currentExpr);
@@ -533,27 +458,21 @@
       if (!currentExpr) return;
       try {
         let expr = currentExpr;
-
         expr = expr.replace(/sin⁻¹\(/g, 'asin(')
                    .replace(/cos⁻¹\(/g, 'acos(')
                    .replace(/tan⁻¹\(/g, 'atan(');
-
         expr = expr.replace(/√\(/g, 'sqrt(')
                    .replace(/∛\(/g, 'cbrt(')
                    .replace(/×/g, '*')
                    .replace(/÷/g, '/')
                    .replace(/−/g, '-');
-
         expr = expr.replace(/²/g, '**2')
                    .replace(/³/g, '**3')
                    .replace(/⁻¹/g, '**(-1)')
                    .replace(/%/g, '/100');
-
         expr = expr.replace(/(\d+(?:\.\d+)?|\([^()]+\))!/g, 'fact($1)');
-
-        expr = expr.replace(/(\d|\)|π|e|Ans)(?=\(|π|e|Ans|sin|cos|tan|asin|acos|atan|log|ln|sqrt|cbrt|abs)/g, '$1*');
-        expr = expr.replace(/(\)|π|e|Ans)(?=\d)/g, '$1*');
-
+        expr = expr.replace(/(\d|\)|π|e|Ans)(?=\(|π|e|Ans|sin|cos|tan|asin|acos|atan|log|ln|sqrt|cbrt|abs)/g, '$1*');
+        expr = expr.replace(/(\)|π|e|Ans)(?=\d)/g, '$1*');
         expr = expr.replace(/π/g, 'Math.PI')
                    .replace(/e/g, 'Math.E')
                    .replace(/Ans/g, `(${lastAns})`)
@@ -567,7 +486,6 @@
 
         const toRad = (x) => isDeg ? (x * Math.PI / 180) : x;
         const fromRad = (x) => isDeg ? (x * 180 / Math.PI) : x;
-
         const sin = (x) => Math.sin(toRad(x));
         const cos = (x) => Math.cos(toRad(x));
         const tan = (x) => Math.tan(toRad(x));
