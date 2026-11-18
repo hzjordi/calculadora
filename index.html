@@ -48,6 +48,7 @@
       flex-direction: column;
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       padding: 8px;
       gap: 8px;
     }
@@ -56,23 +57,25 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      min-height: 48px;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 44px;
     }
 
     .status-indicators {
       display: flex;
-      gap: 10px;
+      gap: 6px;
       align-items: center;
-      font-size: 1.2rem;
+      font-size: clamp(0.85rem, 2.8vw, 1.2rem);
       font-weight: 800;
     }
 
     .badge {
-      padding: 6px 12px;
+      padding: 6px 10px;
       border: 2px solid var(--border-color);
       border-radius: 8px;
       background: #1a1a1a;
+      white-space: nowrap;
     }
 
     .badge.shift-active {
@@ -82,31 +85,60 @@
 
     .top-actions {
       display: flex;
-      gap: 8px;
+      gap: 6px;
+      align-items: center;
     }
 
     .btn-top {
-      padding: 8px 14px;
-      font-size: 1.15rem;
+      padding: 6px 10px;
+      font-size: clamp(0.85rem, 2.8vw, 1.15rem);
       font-weight: 800;
       border-radius: 8px;
       border: 2px solid var(--border-color);
       background: #222222;
       color: #FFFFFF;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .btn-salir {
       background-color: #cc0000;
       color: #FFFFFF;
       border-color: #FFFFFF;
-      padding: 8px 18px;
-      font-size: 1.25rem;
+      padding: 6px 12px;
+      font-size: clamp(0.9rem, 3vw, 1.25rem);
       text-transform: uppercase;
     }
 
     .btn-salir:active {
       background-color: #ff1a1a;
+    }
+
+    @media (max-width: 600px) {
+      .app-container {
+        padding: 6px;
+        gap: 6px;
+      }
+      .top-bar {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+        width: 100%;
+      }
+      .status-indicators,
+      .top-actions {
+        display: contents;
+      }
+      .badge,
+      .btn-top,
+      .btn-salir {
+        width: 100%;
+        padding: 8px 2px;
+        font-size: clamp(0.75rem, 3.1vw, 0.95rem);
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     /* Pantalla única y grande */
@@ -118,7 +150,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      min-height: 16vh;
+      min-height: 15vh;
     }
 
     .result {
@@ -180,37 +212,37 @@
     .key-sci {
       background-color: var(--btn-sci-bg);
       color: var(--btn-sci-text);
-      font-size: clamp(1.4rem, 3.2vh, 2.2rem);
+      font-size: clamp(1.3rem, 3.2vh, 2.2rem);
     }
 
     .key-num {
       background-color: var(--btn-num-bg);
       color: var(--btn-num-text);
-      font-size: clamp(2rem, 4.5vh, 3rem);
+      font-size: clamp(1.9rem, 4.5vh, 3rem);
     }
 
     .key-op {
       background-color: var(--btn-op-bg);
       color: var(--btn-op-text);
-      font-size: clamp(2rem, 4.5vh, 3rem);
+      font-size: clamp(1.9rem, 4.5vh, 3rem);
     }
 
     .key-del {
       background-color: var(--btn-del-bg);
       color: #FFFFFF;
-      font-size: clamp(1.5rem, 3.3vh, 2.2rem);
+      font-size: clamp(1.35rem, 3.3vh, 2.2rem);
     }
 
     .key-eq {
       background-color: var(--btn-eq-bg);
       color: #FFFFFF;
-      font-size: clamp(2.2rem, 4.8vh, 3.2rem);
+      font-size: clamp(2.1rem, 4.8vh, 3.2rem);
     }
 
     .key-shift {
       background-color: var(--btn-shift-bg);
       color: #000000;
-      font-size: clamp(1.3rem, 2.8vh, 1.9rem);
+      font-size: clamp(1.1rem, 2.8vh, 1.9rem);
     }
 
     .key-shift.active {
@@ -225,11 +257,11 @@
     <div class="top-bar">
       <div class="status-indicators">
         <span class="badge" id="ind-shift">NORMAL</span>
-        <button class="btn-top" id="btn-deg" onclick="toggleDeg()">DEG (Grados)</button>
+        <button class="btn-top" id="btn-deg" onclick="toggleDeg()">DEG</button>
         <button class="btn-top" onclick="toggleTheme()">Contraste</button>
       </div>
       <div class="top-actions">
-        <button class="btn-top" id="btn-fullscreen" onclick="activarPantallaCompleta()">Pantalla Completa</button>
+        <button class="btn-top" id="btn-fullscreen" onclick="activarPantallaCompleta()">P. Completa</button>
         <button class="btn-top btn-salir" onclick="salirApp()">Salir</button>
       </div>
     </div>
@@ -299,6 +331,18 @@
     const shiftBtn = document.getElementById('btn-shift');
     const degBtn = document.getElementById('btn-deg');
 
+    function actualizarEtiquetasResponsive() {
+      const esMovil = window.innerWidth <= 600;
+      const fsBtn = document.getElementById('btn-fullscreen');
+      degBtn.textContent = esMovil
+        ? (isDeg ? 'DEG' : 'RAD')
+        : (isDeg ? 'DEG (Grados)' : 'RAD (Radianes)');
+      fsBtn.textContent = esMovil ? 'P. Completa' : 'Pantalla Completa';
+    }
+
+    window.addEventListener('resize', actualizarEtiquetasResponsive);
+    window.addEventListener('load', actualizarEtiquetasResponsive);
+
     function activarPantallaCompleta() {
       const elem = document.documentElement;
       if (!document.fullscreenElement) {
@@ -306,6 +350,10 @@
           elem.requestFullscreen().catch(() => {});
         } else if (elem.webkitRequestFullscreen) {
           elem.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
         }
       }
     }
@@ -326,7 +374,7 @@
 
     function toggleDeg() {
       isDeg = !isDeg;
-      degBtn.textContent = isDeg ? 'DEG (Grados)' : 'RAD (Radianes)';
+      actualizarEtiquetasResponsive();
     }
 
     function setShift(state) {
