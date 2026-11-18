@@ -109,31 +109,20 @@
       background-color: #ff1a1a;
     }
 
+    /* Pantalla única y grande */
     .display-box {
       background-color: var(--bg-display);
       border: 3px solid var(--border-color);
       border-radius: 10px;
-      padding: 8px 14px;
+      padding: 10px 16px;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: flex-end;
       min-height: 16vh;
     }
 
-    .expression {
-      font-size: 1.3rem;
-      color: #cccccc;
-      min-height: 1.6rem;
-      width: 100%;
-      text-align: right;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
     .result {
-      font-size: clamp(2.5rem, 6vh, 4.2rem);
+      font-size: clamp(2.8rem, 7vh, 4.8rem);
       font-weight: 900;
       color: var(--text-main);
       width: 100%;
@@ -149,11 +138,12 @@
       gap: 6px;
     }
 
+    /* Rejilla científica ampliada a 5 columnas para botones más grandes */
     .sci-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 6px;
-      flex: 1.2;
+      flex: 1.3;
     }
 
     .main-grid {
@@ -190,7 +180,7 @@
     .key-sci {
       background-color: var(--btn-sci-bg);
       color: var(--btn-sci-text);
-      font-size: clamp(1.2rem, 2.6vh, 1.75rem);
+      font-size: clamp(1.4rem, 3.2vh, 2.2rem);
     }
 
     .key-num {
@@ -220,296 +210,350 @@
     .key-shift {
       background-color: var(--btn-shift-bg);
       color: #000000;
-      font-size: clamp(1.25rem, 2.6vh, 1.7rem);
+      font-size: clamp(1.3rem, 2.8vh, 1.9rem);
+    }
+
+    .key-shift.active {
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 0 0 12px #FFFF00;
     }
   </style>
 </head>
 <body>
-
-<div class="app-container" id="app">
-  <div class="top-bar">
-    <div class="status-indicators">
-      <span class="badge" id="ind-shift">NORMAL</span>
-      <button class="btn-top" id="btn-deg" onclick="toggleDeg()">DEG (Grados)</button>
-      <button class="btn-top" onclick="toggleTheme()">Contraste</button>
-    </div>
-    <div class="top-actions">
-      <button class="btn-top" id="btn-fullscreen" onclick="activarPantallaCompleta()">Pantalla Completa</button>
-      <button class="btn-top btn-salir" onclick="salirApp()">Salir</button>
-    </div>
-  </div>
-
-  <div class="display-box">
-    <div class="expression" id="expression"></div>
-    <div class="result" id="display">0</div>
-  </div>
-
-  <div class="keypad">
-    <div class="sci-grid">
-      <button class="key key-shift" onclick="toggleShift()">SHIFT</button>
-      <button class="key key-sci" onclick="applyUnary('abs')">|x|</button>
-      <button class="key key-sci" onclick="applyUnary('fact')">x!</button>
-      <button class="key key-sci" onclick="applyUnary('cube')">x³</button>
-      <button class="key key-sci" onclick="applyUnary('sq')">x²</button>
-      <button class="key key-sci" onclick="insertToken('^(1/')">ⁿ√</button>
-
-      <button class="key key-sci" onclick="insertToken('^')">xʸ</button>
-      <button class="key key-sci" onclick="applyUnary('cbrt')">∛</button>
-      <button class="key key-sci" onclick="applyUnary('sqrt')">√</button>
-      <button class="key key-sci" onclick="insertToken('10^(')">10ˣ</button>
-      <button class="key key-sci" onclick="insertFunc('log(')">log</button>
-      <button class="key key-sci" onclick="insertToken('e^(')">eˣ</button>
-
-      <button class="key key-sci" onclick="insertFunc('ln(')">ln</button>
-      <button class="key key-sci" onclick="insertFunc('asin(')">sin⁻¹</button>
-      <button class="key key-sci" onclick="insertFunc('sin(')">sin</button>
-      <button class="key key-sci" onclick="insertFunc('acos(')">cos⁻¹</button>
-      <button class="key key-sci" onclick="insertFunc('cos(')">cos</button>
-      <button class="key key-sci" onclick="insertFunc('atan(')">tan⁻¹</button>
-
-      <button class="key key-sci" onclick="insertFunc('tan(')">tan</button>
-      <button class="key key-sci" onclick="applyUnary('percent')">%</button>
-      <button class="key key-sci" onclick="applyUnary('inv')">x⁻¹</button>
-      <button class="key key-sci" onclick="insertToken('(')">(</button>
-      <button class="key key-sci" onclick="insertToken(')')">)</button>
-      <button class="key key-sci" onclick="insertConst('e')">e</button>
+  <div class="app-container" id="app">
+    <div class="top-bar">
+      <div class="status-indicators">
+        <span class="badge" id="ind-shift">NORMAL</span>
+        <button class="btn-top" id="btn-deg" onclick="toggleDeg()">DEG (Grados)</button>
+        <button class="btn-top" onclick="toggleTheme()">Contraste</button>
+      </div>
+      <div class="top-actions">
+        <button class="btn-top" id="btn-fullscreen" onclick="activarPantallaCompleta()">Pantalla Completa</button>
+        <button class="btn-top btn-salir" onclick="salirApp()">Salir</button>
+      </div>
     </div>
 
-    <div class="main-grid">
-      <button class="key key-num" onclick="insertDigit('7')">7</button>
-      <button class="key key-num" onclick="insertDigit('8')">8</button>
-      <button class="key key-num" onclick="insertDigit('9')">9</button>
-      <button class="key key-del" onclick="deleteLast()">DEL</button>
-      <button class="key key-del" onclick="clearAll()">AC</button>
+    <div class="display-box">
+      <div class="result" id="display">0</div>
+    </div>
 
-      <button class="key key-num" onclick="insertDigit('4')">4</button>
-      <button class="key key-num" onclick="insertDigit('5')">5</button>
-      <button class="key key-num" onclick="insertDigit('6')">6</button>
-      <button class="key key-op" onclick="insertOperator('×')">×</button>
-      <button class="key key-op" onclick="insertOperator('÷')">÷</button>
+    <div class="keypad">
+      <div class="sci-grid">
+        <button class="key key-shift" id="btn-shift" onclick="toggleShift()">SHIFT</button>
+        <button class="key key-sci" id="key-sqrt" onclick="pressSci('sqrt')">√</button>
+        <button class="key key-sci" id="key-sq" onclick="pressSci('sq')">x²</button>
+        <button class="key key-sci" id="key-pow" onclick="pressSci('pow')">xʸ</button>
+        <button class="key key-sci" id="key-inv" onclick="pressSci('inv')">x⁻¹</button>
 
-      <button class="key key-num" onclick="insertDigit('1')">1</button>
-      <button class="key key-num" onclick="insertDigit('2')">2</button>
-      <button class="key key-num" onclick="insertDigit('3')">3</button>
-      <button class="key key-op" onclick="insertOperator('+')">+</button>
-      <button class="key key-op" onclick="insertOperator('−')">−</button>
+        <button class="key key-sci" id="key-sin" onclick="pressSci('sin')">sin</button>
+        <button class="key key-sci" id="key-cos" onclick="pressSci('cos')">cos</button>
+        <button class="key key-sci" id="key-tan" onclick="pressSci('tan')">tan</button>
+        <button class="key key-sci" id="key-log" onclick="pressSci('log')">log</button>
+        <button class="key key-sci" id="key-ln" onclick="pressSci('ln')">ln</button>
 
-      <button class="key key-num" onclick="insertDigit('0')">0</button>
-      <button class="key key-num" onclick="insertDigit('.')">.</button>
-      <button class="key key-sci" onclick="insertConst('π')">π</button>
-      <button class="key key-sci" onclick="insertAns()">Ans</button>
-      <button class="key key-eq" onclick="calculate()">=</button>
+        <button class="key key-sci" onclick="insertToken('(')">(</button>
+        <button class="key key-sci" onclick="insertToken(')')">)</button>
+        <button class="key key-sci" onclick="insertFunc('abs(')">|x|</button>
+        <button class="key key-sci" onclick="insertPostfix('!')">x!</button>
+        <button class="key key-sci" onclick="insertPostfix('%')">%</button>
+      </div>
+
+      <div class="main-grid">
+        <button class="key key-num" onclick="insertDigit('7')">7</button>
+        <button class="key key-num" onclick="insertDigit('8')">8</button>
+        <button class="key key-num" onclick="insertDigit('9')">9</button>
+        <button class="key key-del" onclick="deleteLast()">DEL</button>
+        <button class="key key-del" onclick="clearAll()">AC</button>
+
+        <button class="key key-num" onclick="insertDigit('4')">4</button>
+        <button class="key key-num" onclick="insertDigit('5')">5</button>
+        <button class="key key-num" onclick="insertDigit('6')">6</button>
+        <button class="key key-op" onclick="insertOperator('×')">×</button>
+        <button class="key key-op" onclick="insertOperator('÷')">÷</button>
+
+        <button class="key key-num" onclick="insertDigit('1')">1</button>
+        <button class="key key-num" onclick="insertDigit('2')">2</button>
+        <button class="key key-num" onclick="insertDigit('3')">3</button>
+        <button class="key key-op" onclick="insertOperator('+')">+</button>
+        <button class="key key-op" onclick="insertOperator('−')">−</button>
+
+        <button class="key key-num" onclick="insertDigit('0')">0</button>
+        <button class="key key-num" onclick="insertDigit('.')">.</button>
+        <button class="key key-sci" id="key-const" onclick="pressConst()">π</button>
+        <button class="key key-sci" onclick="insertAns()">Ans</button>
+        <button class="key key-eq" onclick="calculate()">=</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  let currentExpr = '';
-  let lastAns = 0;
-  let isDeg = true;
-  let isShift = false;
-  let justEvaluated = false;
+  <script>
+    let currentExpr = '';
+    let lastAns = 0;
+    let isDeg = true;
+    let isShift = false;
+    let justEvaluated = false;
 
-  const displayEl = document.getElementById('display');
-  const exprEl = document.getElementById('expression');
-  const shiftBadge = document.getElementById('ind-shift');
-  const degBtn = document.getElementById('btn-deg');
+    const displayEl = document.getElementById('display');
+    const shiftBadge = document.getElementById('ind-shift');
+    const shiftBtn = document.getElementById('btn-shift');
+    const degBtn = document.getElementById('btn-deg');
 
-  function activarPantallaCompleta() {
-    const elem = document.documentElement;
-    if (!document.fullscreenElement) {
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen().catch(() => {});
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
+    function activarPantallaCompleta() {
+      const elem = document.documentElement;
+      if (!document.fullscreenElement) {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen().catch(() => {});
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
       }
     }
-  }
 
-  window.addEventListener('load', activarPantallaCompleta);
-  document.addEventListener('click', function autoFull() {
-    activarPantallaCompleta();
-    document.removeEventListener('click', autoFull);
-  });
-
-  function salirApp() {
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    }
-    window.close();
-    setTimeout(() => {
-      alert('Has salido de la pantalla completa. Ya puedes cerrar esta pestaña o volver atrás.');
-    }, 200);
-  }
-
-  function toggleTheme() {
-    document.body.classList.toggle('tema-blanco');
-  }
-
-  function toggleDeg() {
-    isDeg = !isDeg;
-    degBtn.textContent = isDeg ? 'DEG (Grados)' : 'RAD (Radianes)';
-  }
-
-  function toggleShift() {
-    isShift = !isShift;
-    shiftBadge.textContent = isShift ? 'SHIFT' : 'NORMAL';
-    shiftBadge.classList.toggle('shift-active', isShift);
-  }
-
-  function updateScreen(val) {
-    displayEl.textContent = val || '0';
-    exprEl.textContent = currentExpr;
-  }
-
-  function insertDigit(d) {
-    if (justEvaluated) {
-      currentExpr = '';
-      justEvaluated = false;
-    }
-    currentExpr += d;
-    updateScreen(currentExpr);
-  }
-
-  function insertOperator(op) {
-    justEvaluated = false;
-    if (currentExpr === '') currentExpr = String(lastAns);
-    currentExpr += op;
-    updateScreen(currentExpr);
-  }
-
-  function insertToken(tok) {
-    if (justEvaluated) {
-      currentExpr = '';
-      justEvaluated = false;
-    }
-    currentExpr += tok;
-    updateScreen(currentExpr);
-  }
-
-  function insertFunc(fn) {
-    if (justEvaluated) {
-      currentExpr = '';
-      justEvaluated = false;
-    }
-    currentExpr += fn;
-    updateScreen(currentExpr);
-  }
-
-  function insertConst(c) {
-    if (justEvaluated) {
-      currentExpr = '';
-      justEvaluated = false;
-    }
-    currentExpr += c;
-    updateScreen(currentExpr);
-  }
-
-  function insertAns() {
-    if (justEvaluated) {
-      currentExpr = '';
-      justEvaluated = false;
-    }
-    currentExpr += 'Ans';
-    updateScreen(currentExpr);
-  }
-
-  function deleteLast() {
-    if (justEvaluated) {
-      clearAll();
-      return;
-    }
-    currentExpr = currentExpr.slice(0, -1);
-    updateScreen(currentExpr);
-  }
-
-  function clearAll() {
-    currentExpr = '';
-    justEvaluated = false;
-    updateScreen('0');
-  }
-
-  function factorial(n) {
-    if (n < 0 || !Number.isInteger(n)) return NaN;
-    if (n === 0 || n === 1) return 1;
-    let res = 1;
-    for (let i = 2; i <= n; i++) res *= i;
-    return res;
-  }
-
-  function applyUnary(type) {
-    calculate();
-    let val = parseFloat(displayEl.textContent);
-    if (isNaN(val)) return;
-    let res = val;
-    if (type === 'sq') res = Math.pow(val, 2);
-    if (type === 'cube') res = Math.pow(val, 3);
-    if (type === 'sqrt') res = Math.sqrt(val);
-    if (type === 'cbrt') res = Math.cbrt(val);
-    if (type === 'abs') res = Math.abs(val);
-    if (type === 'fact') res = factorial(val);
-    if (type === 'inv') res = 1 / val;
-    if (type === 'percent') res = val / 100;
-
-    res = Number(res.toPrecision(12));
-    lastAns = res;
-    currentExpr = String(res);
-    justEvaluated = true;
-    updateScreen(res);
-  }
-
-  function calculate() {
-    if (!currentExpr) return;
-    try {
-      let expr = currentExpr
-        .replace(/×/g, '*')
-        .replace(/÷/g, '/')
-        .replace(/−/g, '-')
-        .replace(/π/g, 'Math.PI')
-        .replace(/\be\b/g, 'Math.E')
-        .replace(/Ans/g, `(${lastAns})`)
-        .replace(/\^/g, '**');
-
-      const openParens = (expr.match(/\(/g) || []).length;
-      const closeParens = (expr.match(/\)/g) || []).length;
-      if (openParens > closeParens) {
-        expr += ')'.repeat(openParens - closeParens);
+    function salirApp() {
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
       }
+      window.close();
+      setTimeout(() => {
+        alert('Has salido de la pantalla completa. Ya puedes cerrar esta pestaña o volver atrás.');
+      }, 200);
+    }
 
-      const toRad = (x) => isDeg ? (x * Math.PI / 180) : x;
-      const fromRad = (x) => isDeg ? (x * 180 / Math.PI) : x;
+    function toggleTheme() {
+      document.body.classList.toggle('tema-blanco');
+    }
 
-      const sin = (x) => Math.sin(toRad(x));
-      const cos = (x) => Math.cos(toRad(x));
-      const tan = (x) => Math.tan(toRad(x));
-      const asin = (x) => fromRad(Math.asin(x));
-      const acos = (x) => fromRad(Math.acos(x));
-      const atan = (x) => fromRad(Math.atan(x));
-      const log = (x) => Math.log10(x);
-      const ln = (x) => Math.log(x);
+    function toggleDeg() {
+      isDeg = !isDeg;
+      degBtn.textContent = isDeg ? 'DEG (Grados)' : 'RAD (Radianes)';
+    }
 
-      let evalResult = Function('sin','cos','tan','asin','acos','atan','log','ln', `return (${expr})`)(
-        sin, cos, tan, asin, acos, atan, log, ln
-      );
+    function setShift(state) {
+      isShift = state;
+      shiftBadge.textContent = isShift ? 'SHIFT' : 'NORMAL';
+      shiftBadge.classList.toggle('shift-active', isShift);
+      shiftBtn.classList.toggle('active', isShift);
 
-      if (!isFinite(evalResult) || isNaN(evalResult)) {
-        displayEl.textContent = 'Error';
+      document.getElementById('key-sqrt').textContent = isShift ? '∛' : '√';
+      document.getElementById('key-sq').textContent = isShift ? 'x³' : 'x²';
+      document.getElementById('key-pow').textContent = isShift ? 'ⁿ√' : 'xʸ';
+      document.getElementById('key-sin').textContent = isShift ? 'sin⁻¹' : 'sin';
+      document.getElementById('key-cos').textContent = isShift ? 'cos⁻¹' : 'cos';
+      document.getElementById('key-tan').textContent = isShift ? 'tan⁻¹' : 'tan';
+      document.getElementById('key-log').textContent = isShift ? '10ˣ' : 'log';
+      document.getElementById('key-ln').textContent = isShift ? 'eˣ' : 'ln';
+      document.getElementById('key-const').textContent = isShift ? 'e' : 'π';
+    }
+
+    function toggleShift() {
+      setShift(!isShift);
+    }
+
+    function updateScreen(val) {
+      displayEl.textContent = val || '0';
+      displayEl.scrollLeft = displayEl.scrollWidth;
+    }
+
+    function insertDigit(d) {
+      if (justEvaluated) {
         currentExpr = '';
+        justEvaluated = false;
+      }
+      currentExpr += d;
+      updateScreen(currentExpr);
+    }
+
+    function insertOperator(op) {
+      if (justEvaluated) {
+        currentExpr = 'Ans';
+        justEvaluated = false;
+      }
+      if (currentExpr === '') {
+        if (op === '−') {
+          currentExpr = '−';
+          updateScreen(currentExpr);
+          return;
+        }
+        currentExpr = 'Ans';
+      }
+      currentExpr += op;
+      updateScreen(currentExpr);
+    }
+
+    function insertToken(tok) {
+      if (justEvaluated) {
+        currentExpr = '';
+        justEvaluated = false;
+      }
+      currentExpr += tok;
+      updateScreen(currentExpr);
+    }
+
+    function insertFunc(fn) {
+      if (justEvaluated) {
+        currentExpr = '';
+        justEvaluated = false;
+      }
+      currentExpr += fn;
+      updateScreen(currentExpr);
+    }
+
+    function insertPostfix(sym) {
+      if (justEvaluated) {
+        currentExpr = 'Ans';
+        justEvaluated = false;
+      }
+      if (currentExpr === '') currentExpr = 'Ans';
+      currentExpr += sym;
+      updateScreen(currentExpr);
+    }
+
+    function pressSci(type) {
+      if (type === 'sqrt') {
+        insertFunc(isShift ? '∛(' : '√(');
+      } else if (type === 'sq') {
+        insertPostfix(isShift ? '³' : '²');
+      } else if (type === 'pow') {
+        if (justEvaluated) { currentExpr = 'Ans'; justEvaluated = false; }
+        if (currentExpr === '') currentExpr = 'Ans';
+        currentExpr += isShift ? '^(1/' : '^';
+        updateScreen(currentExpr);
+      } else if (type === 'inv') {
+        insertPostfix('⁻¹');
+      } else if (type === 'sin') {
+        insertFunc(isShift ? 'sin⁻¹(' : 'sin(');
+      } else if (type === 'cos') {
+        insertFunc(isShift ? 'cos⁻¹(' : 'cos(');
+      } else if (type === 'tan') {
+        insertFunc(isShift ? 'tan⁻¹(' : 'tan(');
+      } else if (type === 'log') {
+        insertFunc(isShift ? '10^(' : 'log(');
+      } else if (type === 'ln') {
+        insertFunc(isShift ? 'e^(' : 'ln(');
+      }
+      if (isShift) setShift(false);
+    }
+
+    function pressConst() {
+      insertToken(isShift ? 'e' : 'π');
+      if (isShift) setShift(false);
+    }
+
+    function insertAns() {
+      if (justEvaluated) {
+        currentExpr = '';
+        justEvaluated = false;
+      }
+      currentExpr += 'Ans';
+      updateScreen(currentExpr);
+    }
+
+    function deleteLast() {
+      if (justEvaluated) {
+        clearAll();
         return;
       }
-
-      evalResult = Number(evalResult.toPrecision(12));
-      exprEl.textContent = currentExpr + ' =';
-      displayEl.textContent = evalResult;
-      lastAns = evalResult;
-      currentExpr = String(evalResult);
-      justEvaluated = true;
-    } catch (e) {
-      displayEl.textContent = 'Error';
-      currentExpr = '';
+      const multiTokens = ['sin⁻¹(', 'cos⁻¹(', 'tan⁻¹(', 'sin(', 'cos(', 'tan(', 'log(', 'ln(', 'abs(', 'Ans', '√(', '∛(', '10^(', 'e^(', '⁻¹'];
+      for (let tok of multiTokens) {
+        if (currentExpr.endsWith(tok)) {
+          currentExpr = currentExpr.slice(0, -tok.length);
+          updateScreen(currentExpr);
+          return;
+        }
+      }
+      currentExpr = currentExpr.slice(0, -1);
+      updateScreen(currentExpr);
     }
-  }
-</script>
 
+    function clearAll() {
+      currentExpr = '';
+      justEvaluated = false;
+      setShift(false);
+      updateScreen('0');
+    }
+
+    function factorial(n) {
+      if (n < 0 || !Number.isInteger(n)) return NaN;
+      if (n === 0 || n === 1) return 1;
+      let res = 1;
+      for (let i = 2; i <= n; i++) res *= i;
+      return res;
+    }
+
+    function calculate() {
+      if (!currentExpr) return;
+      try {
+        let expr = currentExpr;
+
+        expr = expr.replace(/sin⁻¹\(/g, 'asin(')
+                   .replace(/cos⁻¹\(/g, 'acos(')
+                   .replace(/tan⁻¹\(/g, 'atan(');
+
+        expr = expr.replace(/√\(/g, 'sqrt(')
+                   .replace(/∛\(/g, 'cbrt(')
+                   .replace(/×/g, '*')
+                   .replace(/÷/g, '/')
+                   .replace(/−/g, '-');
+
+        expr = expr.replace(/²/g, '**2')
+                   .replace(/³/g, '**3')
+                   .replace(/⁻¹/g, '**(-1)')
+                   .replace(/%/g, '/100');
+
+        expr = expr.replace(/(\d+(?:\.\d+)?|\([^()]+\))!/g, 'fact($1)');
+
+        expr = expr.replace(/(\d|\)|π|e|Ans)(?=\(|π|e|Ans|sin|cos|tan|asin|acos|atan|log|ln|sqrt|cbrt|abs)/g, '$1*');
+        expr = expr.replace(/(\)|π|e|Ans)(?=\d)/g, '$1*');
+
+        expr = expr.replace(/π/g, 'Math.PI')
+                   .replace(/e/g, 'Math.E')
+                   .replace(/Ans/g, `(${lastAns})`)
+                   .replace(/\^/g, '**');
+
+        const openParens = (expr.match(/\(/g) || []).length;
+        const closeParens = (expr.match(/\)/g) || []).length;
+        if (openParens > closeParens) {
+          expr += ')'.repeat(openParens - closeParens);
+        }
+
+        const toRad = (x) => isDeg ? (x * Math.PI / 180) : x;
+        const fromRad = (x) => isDeg ? (x * 180 / Math.PI) : x;
+
+        const sin = (x) => Math.sin(toRad(x));
+        const cos = (x) => Math.cos(toRad(x));
+        const tan = (x) => Math.tan(toRad(x));
+        const asin = (x) => fromRad(Math.asin(x));
+        const acos = (x) => fromRad(Math.acos(x));
+        const atan = (x) => fromRad(Math.atan(x));
+        const log = (x) => Math.log10(x);
+        const ln = (x) => Math.log(x);
+        const sqrt = (x) => Math.sqrt(x);
+        const cbrt = (x) => Math.cbrt(x);
+        const abs = (x) => Math.abs(x);
+        const fact = (x) => factorial(x);
+
+        let evalResult = Function(
+          'sin','cos','tan','asin','acos','atan','log','ln','sqrt','cbrt','abs','fact',
+          `return (${expr})`
+        )(sin, cos, tan, asin, acos, atan, log, ln, sqrt, cbrt, abs, fact);
+
+        if (!isFinite(evalResult) || isNaN(evalResult)) {
+          displayEl.textContent = 'Error';
+          currentExpr = '';
+          return;
+        }
+
+        evalResult = Number(evalResult.toPrecision(12));
+        displayEl.textContent = evalResult;
+        lastAns = evalResult;
+        currentExpr = String(evalResult);
+        justEvaluated = true;
+      } catch (e) {
+        displayEl.textContent = 'Error';
+        currentExpr = '';
+      }
+    }
+  </script>
 </body>
 </html>
