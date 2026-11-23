@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Científica Casio Adaptable - Alta Visibilidad</title>
+  <style>
+    :root {
+      /* Modo 1 por defecto: Fondo blanco, texto negro, bordes de color */
+      --bg-app: #FFFFFF;
+      --bg-display: #FFFFFF;
+      --bg-badge: #FFFFFF;
+      --text-main: #000000;
+      --border-color: #000000;
+      --key-color-border-width: 8px;
+      --btn-num-bg: #FFFFFF;
+      --btn-num-text: #000000;
+      --border-num: #000000;
+      --btn-op-bg: #FFFFFF;
+      --btn-op-text: #000000;
+      --border-op: #004488;
+      --btn-sci-bg: #FFFFFF;
+      --btn-sci-text: #000000;
+      --border-sci: #000000;
+      --btn-del-bg: #FFFFFF;
+      --btn-del-text: #000000;
+      --border-del: #b30000;
+      --btn-eq-bg: #FFFFFF;
+      --btn-eq-text: #000000;
+      --border-eq: #007a29;
+      --btn-shift-bg: #FFFFFF;
+      --btn-shift-text: #000000;
+      --border-shift: #d97700;
+      --btn-shift-active-bg: #d97700;
+      --btn-shift-active-text: #000000;
+      --btn-top-bg: #FFFFFF;
+      --btn-top-text: #000000;
+      --btn-salir-bg: #FFFFFF;
+      --btn-salir-text: #000000;
+      --border-salir: #cc0000;
+    }
+
+    /* Modo 2: Negro y Amarillo */
+    body.tema-negro-amarillo {
+      --bg-app: #000000;
+      --bg-display: #111111;
+      --bg-badge: #1a1a1a;
+      --text-main: #FFFF00;
+      --border-color: #FFFF00;
+      --key-color-border-width: 3px;
+      --btn-num-bg: #1a1a1a;
+      --btn-num-text: #FFFFFF;
+      --border-num: #FFFF00;
+      --btn-op-bg: #004488;
+      --btn-op-text: #FFFFFF;
+      --border-op: #FFFF00;
+      --btn-sci-bg: #262626;
+      --btn-sci-text: #FFFF00;
+      --border-sci: #FFFF00;
+      --btn-del-bg: #b30000;
+      --btn-del-text: #FFFFFF;
+      --border-del: #FFFF00;
+      --btn-eq-bg: #007a29;
+      --btn-eq-text: #FFFFFF;
+      --border-eq: #FFFF00;
+      --btn-shift-bg: #d97700;
+      --btn-shift-text: #000000;
+      --border-shift: #FFFF00;
+      --btn-shift-active-bg: #ffffff;
+      --btn-shift-active-text: #000000;
+      --btn-top-bg: #222222;
+      --btn-top-text: #FFFFFF;
+      --btn-salir-bg: #cc0000;
+      --btn-salir-text: #FFFFFF;
+      --border-salir: #FFFFFF;
+    }
+
+    /* Modo 3: Negro y Blanco */
+    body.tema-negro-blanco {
+      --bg-app: #000000;
+      --bg-display: #111111;
+      --bg-badge: #1a1a1a;
+      --text-main: #FFFFFF;
+      --border-color: #FFFFFF;
+      --key-color-border-width: 3px;
+      --btn-num-bg: #1a1a1a;
+      --btn-num-text: #FFFFFF;
+      --border-num: #FFFFFF;
+      --btn-op-bg: #004488;
+      --btn-op-text: #FFFFFF;
+      --border-op: #FFFFFF;
+      --btn-sci-bg: #262626;
+      --btn-sci-text: #FFFFFF;
+      --border-sci: #FFFFFF;
+      --btn-del-bg: #b30000;
+      --btn-del-text: #FFFFFF;
+      --border-del: #FFFFFF;
+      --btn-eq-bg: #007a29;
+      --btn-eq-text: #FFFFFF;
+      --border-eq: #FFFFFF;
+      --btn-shift-bg: #d97700;
+      --btn-shift-text: #000000;
+      --border-shift: #FFFFFF;
+      --btn-shift-active-bg: #ffffff;
+      --btn-shift-active-text: #000000;
+      --btn-top-bg: #222222;
+      --btn-top-text: #FFFFFF;
+      --btn-salir-bg: #cc0000;
+      --btn-salir-text: #FFFFFF;
+      --border-salir: #FFFFFF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      padding: 6px;
+      gap: 6px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .status-indicators, .top-actions {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .badge, .btn-top {
+      padding: 4px 8px;
+      font-size: clamp(0.75rem, 1.8vh, 1.05rem);
+      font-weight: 800;
+      border-radius: 6px;
+      border: 3px solid var(--border-color);
+      background: var(--btn-top-bg);
+      color: var(--btn-top-text);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .badge {
+      background: var(--bg-badge);
+      color: var(--text-main);
+    }
+
+    .badge.shift-active {
+      background: var(--btn-shift-active-bg);
+      color: var(--btn-shift-active-text);
+      border-color: var(--border-shift);
+    }
+
+    .btn-salir {
+      background-color: var(--btn-salir-bg);
+      color: var(--btn-salir-text);
+      border-color: var(--border-salir);
+      border-width: 4px;
+      text-transform: uppercase;
+    }
+
+    .btn-salir:active {
+      filter: brightness(0.9);
+    }
+
+    /* Pantalla proporcional al alto disponible */
+    .display-box {
+      background-color: var(--bg-display);
+      border: 3px solid var(--border-color);
+      border-radius: 8px;
+      padding: 4px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 13dvh;
+      min-height: 48px;
+      flex-shrink: 0;
+    }
+
+    .result {
+      font-size: clamp(1.8rem, 6vh, 3.8rem);
+      font-weight: 900;
+      color: var(--text-main);
+      width: 100%;
+      text-align: right;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .keypad {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .sci-grid, .main-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 5px;
+      min-height: 0;
+    }
+
+    .sci-grid {
+      flex: 3;
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+    }
+
+    .main-grid {
+      flex: 4;
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+    }
+
+    button.key {
+      border-style: solid;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      min-height: 0;
+      min-width: 0;
+      overflow: hidden;
+      line-height: 1;
+      white-space: nowrap;
+      transition: transform 0.05s;
+    }
+
+    button.key:active {
+      transform: scale(0.96);
+      filter: brightness(0.9);
+    }
+
+    button.key:focus-visible {
+      outline: 4px solid #00ffff;
+      outline-offset: 1px;
+    }
+
+    .key-sci {
+      background-color: var(--btn-sci-bg);
+      color: var(--btn-sci-text);
+      border-color: var(--border-sci);
+      border-width: 3px;
+      font-size: clamp(1rem, 2.7vh, 1.8rem);
+    }
+
+    .key-num {
+      background-color: var(--btn-num-bg);
+      color: var(--btn-num-text);
+      border-color: var(--border-num);
+      border-width: 3px;
+      font-size: clamp(1.3rem, 3.8vh, 2.5rem);
+    }
+
+    .key-op {
+      background-color: var(--btn-op-bg);
+      color: var(--btn-op-text);
+      border-color: var(--border-op);
+      border-width: var(--key-color-border-width);
+      font-size: clamp(1.3rem, 3.8vh, 2.5rem);
+    }
+
+    .key-del {
+      background-color: var(--btn-del-bg);
+      color: var(--btn-del-text);
+      border-color: var(--border-del);
+      border-width: var(--key-color-border-width);
+      font-size: clamp(1rem, 2.7vh, 1.8rem);
+    }
+
+    .key-eq {
+      background-color: var(--btn-eq-bg);
+      color: var(--btn-eq-text);
+      border-color: var(--border-eq);
+      border-width: var(--key-color-border-width);
+      font-size: clamp(1.4rem, 4vh, 2.7rem);
+    }
+
+    .key-shift {
+      background-color: var(--btn-shift-bg);
+      color: var(--btn-shift-text);
+      border-color: var(--border-shift);
+      border-width: var(--key-color-border-width);
+      font-size: clamp(0.9rem, 2.3vh, 1.5rem);
+    }
+
+    .key-shift.active {
+      background-color: var(--btn-shift-active-bg);
+      color: var(--btn-shift-active-text);
+      box-shadow: 0 0 12px var(--border-shift);
+    }
+
+    /* Protección para Modo de Contraste Alto del Sistema Operativo */
+    @media (forced-colors: active) {
+      .key-op { border-style: double; border-width: 5px; }
+      .key-del { border-style: dashed; border-width: 3px; }
+      .key-eq { border-color: Highlight; border-width: 5px; }
+      .key-shift.active { background-color: Highlight; color: HighlightText; }
+      button.key:focus-visible { outline: 3px solid Highlight; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container" id="app">
+    <div class="top-bar">
+      <div class="status-indicators">
+        <span class="badge" id="ind-shift">NORMAL</span>
+        <button class="btn-top" id="btn-deg" onclick="toggleDeg()">DEG</button>
+        <button class="btn-top" onclick="toggleTheme()">Contraste</button>
+      </div>
+      <div class="top-actions">
+        <button class="btn-top" id="btn-fullscreen" onclick="activarPantallaCompleta()">P. Completa</button>
+        <button class="btn-top btn-salir" onclick="salirApp()">Salir</button>
+      </div>
+    </div>
+
+    <div class="display-box">
+      <div class="result" id="display">0</div>
+    </div>
+
+    <div class="keypad">
+      <div class="sci-grid">
+        <button class="key key-shift" id="btn-shift" onclick="toggleShift()">SHIFT</button>
+        <button class="key key-sci" id="key-sqrt" onclick="pressSci('sqrt')">√</button>
+        <button class="key key-sci" id="key-sq" onclick="pressSci('sq')">x²</button>
+        <button class="key key-sci" id="key-pow" onclick="pressSci('pow')">xʸ</button>
+        <button class="key key-sci" id="key-inv" onclick="pressSci('inv')">x⁻¹</button>
+
+        <button class="key key-sci" id="key-sin" onclick="pressSci('sin')">sin</button>
+        <button class="key key-sci" id="key-cos" onclick="pressSci('cos')">cos</button>
+        <button class="key key-sci" id="key-tan" onclick="pressSci('tan')">tan</button>
+        <button class="key key-sci" id="key-log" onclick="pressSci('log')">log</button>
+        <button class="key key-sci" id="key-ln" onclick="pressSci('ln')">ln</button>
+
+        <button class="key key-sci" onclick="insertToken('(')">(</button>
+        <button class="key key-sci" id="key-close" onclick="insertToken(')')">)</button>
+        <button class="key key-sci" onclick="insertFunc('abs(')">|x|</button>
+        <button class="key key-sci" onclick="insertPostfix('!')">x!</button>
+        <button class="key key-sci" onclick="insertPostfix('%')">%</button>
+      </div>
+
+      <div class="main-grid">
+        <button class="key key-num" onclick="insertDigit('7')">7</button>
+        <button class="key key-num" onclick="insertDigit('8')">8</button>
+        <button class="key key-num" onclick="insertDigit('9')">9</button>
+        <button class="key key-del" onclick="deleteLast()">DEL</button>
+        <button class="key key-del" onclick="clearAll()">AC</button>
+
+        <button class="key key-num" onclick="insertDigit('4')">4</button>
+        <button class="key key-num" onclick="insertDigit('5')">5</button>
+        <button class="key key-num" onclick="insertDigit('6')">6</button>
+        <button class="key key-op" onclick="insertOperator('×')">×</button>
+        <button class="key key-op" onclick="insertOperator('÷')">÷</button>
+
+        <button class="key key-num" onclick="insertDigit('1')">1</button>
+        <button class="key key-num" onclick="insertDigit('2')">2</button>
+        <button class="key key-num" onclick="insertDigit('3')">3</button>
+        <button class="key key-op" onclick="insertOperator('+')">+</button>
+        <button class="key key-op" onclick="insertOperator('−')">−</button>
+
+        <button class="key key-num" onclick="insertDigit('0')">0</button>
+        <button class="key key-num" onclick="insertDigit('.')">.</button>
+        <button class="key key-sci" id="key-const" onclick="pressConst()">π</button>
+        <button class="key key-sci" onclick="insertAns()">Ans</button>
+        <button class="key key-eq" onclick="calculate()">=</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentExpr = '';
+    let lastAns = 0;
+    let isDeg = true;
+    let isShift = false;
+    let justEvaluated = false;
+    let currentTheme = 0;
+
+    const displayEl = document.getElementById('display');
+    const shiftBadge = document.getElementById('ind-shift');
+    const shiftBtn = document.getElementById('btn-shift');
+    const degBtn = document.getElementById('btn-deg');
+
+    function actualizarEtiquetasResponsive() {
+      const esMovil = window.innerWidth <= 750;
+      const fsBtn = document.getElementById('btn-fullscreen');
+      degBtn.textContent = esMovil ? (isDeg ? 'DEG' : 'RAD') : (isDeg ? 'DEG (Grados)' : 'RAD (Radianes)');
+      fsBtn.textContent = esMovil ? 'P. Completa' : 'Pantalla Completa';
+    }
+
+    window.addEventListener('resize', actualizarEtiquetasResponsive);
+    window.addEventListener('load', actualizarEtiquetasResponsive);
+
+    function activarPantallaCompleta() {
+      const elem = document.documentElement;
+      if (!document.fullscreenElement) {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen().catch(() => {});
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    }
+
+    function salirApp() {
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+      window.close();
+      setTimeout(() => {
+        alert('Has salido de la pantalla completa. Ya puedes cerrar esta pestaña o volver atrás.');
+      }, 200);
+    }
+
+    function toggleTheme() {
+      currentTheme = (currentTheme + 1) % 3;
+      document.body.classList.remove('tema-negro-amarillo', 'tema-negro-blanco');
+      if (currentTheme === 1) {
+        document.body.classList.add('tema-negro-amarillo');
+      } else if (currentTheme === 2) {
+        document.body.classList.add('tema-negro-blanco');
+      }
+    }
+
+    function toggleDeg() {
+      isDeg = !isDeg;
+      actualizarEtiquetasResponsive();
+    }
+
+    function setShift(state) {
+      isShift = state;
+      shiftBadge.textContent = isShift ? 'SHIFT' : 'NORMAL';
+      shiftBadge.classList.toggle('shift-active', isShift);
+      shiftBtn.classList.toggle('active', isShift);
+
+      document.getElementById('key-sqrt').textContent = isShift ? '∛' : '√';
+      document.getElementById('key-sq').textContent = isShift ? 'x³' : 'x²';
+      document.getElementById('key-pow').textContent = isShift ? 'ⁿ√' : 'xʸ';
+      document.getElementById('key-sin').textContent = isShift ? 'sin⁻¹' : 'sin';
+      document.getElementById('key-cos').textContent = isShift ? 'cos⁻¹' : 'cos';
+      document.getElementById('key-tan').textContent = isShift ? 'tan⁻¹' : 'tan';
+      document.getElementById('key-log').textContent = isShift ? '10ˣ' : 'log';
+      document.getElementById('key-ln').textContent = isShift ? 'eˣ' : 'ln';
+      document.getElementById('key-const').textContent = isShift ? 'e' : 'π';
+    }
+
+    function toggleShift() {
+      setShift(!isShift);
+    }
+
+    function updateScreen(val) {
+      displayEl.textContent = val || '0';
+      displayEl.scrollLeft = displayEl.scrollWidth;
+    }
+
+    function insertDigit(d) {
+      if (justEvaluated) {
+        currentExpr = '';
+        justEvaluated = false;
+      }
+      currentExpr += d;
+      updateScreen(currentExpr);
+    }
+
+    function insertOperator(op) {
+      if (justEvaluated) {
+        currentExpr = 'Ans';
+        justEvaluated = false;
+      }
+      if (currentExpr === '') {
+        if (op === '−') {
+          currentExpr = '−';
+          updateScreen(currentExpr);
+          return;
+        }
+        currentExpr = 'Ans';
+      }
+      currentExpr += op;
+      updateScreen(currentExpr);
+    }
+
+    function insertToken(tok) {
+      if (justEvaluated) {
+        currentExpr = '';
+        justEvaluated = false;
+      }
+      currentExpr += tok;
+      updateScreen(currentExpr);
+    }
+
+    function insertFunc(fn) {
+      if (justEvaluated) {
+        currentExpr = '';
+        justEvaluated = false;
+      }
+      currentExpr += fn;
+      updateScreen(currentExpr);
+    }
+
+    function insertPostfix(sym) {
+      if (justEvaluated) {
+        currentExpr = 'Ans';
+        justEvaluated = false;
+      }
+      if (currentExpr === '') currentExpr = 'Ans';
+      currentExpr += sym;
+      updateScreen(currentExpr);
+    }
+
+    function pressSci(type) {
+      if (type === 'sqrt') {
+        insertFunc(isShift ? '∛(' : '√(');
+      } else if (type === 'sq') {
+        insertPostfix(isShift ? '³' : '²');
+      } else if (type === 'pow') {
+        if (justEvaluated) {
+          currentExpr = 'Ans';
+          justEvaluated = false;
+        }
+        if (currentExpr === '') currentExpr = 'Ans';
+        currentExpr += isShift ? '^(1/' : '^';
+        updateScreen(currentExpr);
+      } else if (type === 'inv') {
+        insertPostfix('⁻¹');
+      } else if (type === 'sin') {
+        insertFunc(isShift ? 'sin⁻¹(' : 'sin(');
+      } else if (type === 'cos') {
+        insertFunc(isShift ? 'cos⁻¹(' : 'cos(');
+      } else if (type === 'tan') {
+        insertFunc(isShift ? 'tan⁻¹(' : 'tan(');
+      } else if (type === 'log') {
+        insertFunc(isShift ? '10^(' : 'log(');
+      } else if (type === 'ln') {
+        insertFunc(isShift ? 'e^(' : 'ln(');
+      }
+      if (isShift) setShift(false);
+    }
+
+    function pressConst() {
+      insertToken(isShift ? 'e' : 'π');
+      if (isShift) setShift(false);
+    }
+
+    function insertAns() {
+      if (justEvaluated) {
+        currentExpr = '';
+        justEvaluated = false;
+      }
+      currentExpr += 'Ans';
+      updateScreen(currentExpr);
+    }
+
+    function deleteLast() {
+      if (justEvaluated) {
+        clearAll();
+        return;
+      }
+      const multiTokens = ['sin⁻¹(', 'cos⁻¹(', 'tan⁻¹(', 'sin(', 'cos(', 'tan(', 'log(', 'ln(', 'abs(', 'Ans', '√(', '∛(', '10^(', 'e^(', '⁻¹'];
+      for (let tok of multiTokens) {
+        if (currentExpr.endsWith(tok)) {
+          currentExpr = currentExpr.slice(0, -tok.length);
+          updateScreen(currentExpr);
+          return;
+        }
+      }
+      currentExpr = currentExpr.slice(0, -1);
+      updateScreen(currentExpr);
+    }
+
+    function clearAll() {
+      currentExpr = '';
+      justEvaluated = false;
+      setShift(false);
+      updateScreen('0');
+    }
+
+    function factorial(n) {
+      if (n < 0 || !Number.isInteger(n)) return NaN;
+      if (n === 0 || n === 1) return 1;
+      let res = 1;
+      for (let i = 2; i <= n; i++) res *= i;
+      return res;
+    }
+
+    function calculate() {
+      if (!currentExpr) return;
+      try {
+        let expr = currentExpr;
+        expr = expr.replace(/sin⁻¹\(/g, 'asin(')
+                   .replace(/cos⁻¹\(/g, 'acos(')
+                   .replace(/tan⁻¹\(/g, 'atan(');
+        expr = expr.replace(/√\(/g, 'sqrt(')
+                   .replace(/∛\(/g, 'cbrt(')
+                   .replace(/×/g, '*')
+                   .replace(/÷/g, '/')
+                   .replace(/−/g, '-');
+        expr = expr.replace(/²/g, '**2')
+                   .replace(/³/g, '**3')
+                   .replace(/⁻¹/g, '**(-1)')
+                   .replace(/%/g, '/100');
+        expr = expr.replace(/(\d+(?:\.\d+)?|\([^()]+\))!/g, 'fact($1)');
+        expr = expr.replace(/(\d|\)|π|\be\b|Ans)(?=\(|π|\be\b|Ans|sin|cos|tan|asin|acos|atan|log|ln|sqrt|cbrt|abs)/g, '$1*');
+        expr = expr.replace(/(\)|π|\be\b|Ans)(?=\d)/g, '$1*');
+        expr = expr.replace(/π/g, 'Math.PI')
+                   .replace(/\be\b/g, 'Math.E')
+                   .replace(/Ans/g, `(${lastAns})`)
+                   .replace(/\^/g, '**');
+
+        const openParens = (expr.match(/\(/g) || []).length;
+        const closeParens = (expr.match(/\)/g) || []).length;
+        if (openParens > closeParens) {
+          expr += ')'.repeat(openParens - closeParens);
+        }
+
+        const toRad = (x) => isDeg ? (x * Math.PI / 180) : x;
+        const fromRad = (x) => isDeg ? (x * 180 / Math.PI) : x;
+
+        const sin = (x) => Math.sin(toRad(x));
+        const cos = (x) => Math.cos(toRad(x));
+        const tan = (x) => Math.tan(toRad(x));
+        const asin = (x) => fromRad(Math.asin(x));
+        const acos = (x) => fromRad(Math.acos(x));
+        const atan = (x) => fromRad(Math.atan(x));
+        const log = (x) => Math.log10(x);
+        const ln = (x) => Math.log(x);
+        const sqrt = (x) => Math.sqrt(x);
+        const cbrt = (x) => Math.cbrt(x);
+        const abs = (x) => Math.abs(x);
+        const fact = (x) => factorial(x);
+
+        let evalResult = Function(
+          'sin','cos','tan','asin','acos','atan','log','ln','sqrt','cbrt','abs','fact',
+          `return (${expr})`
+        )(sin, cos, tan, asin, acos, atan, log, ln, sqrt, cbrt, abs, fact);
+
+        if (!isFinite(evalResult) || isNaN(evalResult)) {
+          displayEl.textContent = 'Error';
+          currentExpr = '';
+          return;
+        }
+
+        evalResult = Number(evalResult.toPrecision(12));
+        displayEl.textContent = evalResult;
+        lastAns = evalResult;
+        currentExpr = String(evalResult);
+        justEvaluated = true;
+      } catch (e) {
+        displayEl.textContent = 'Error';
+        currentExpr = '';
+      }
+    }
+  </script>
+</body>
+</html>
